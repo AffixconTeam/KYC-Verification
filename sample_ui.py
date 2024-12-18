@@ -3,6 +3,8 @@ from utils import *
 from fuzzywuzzy import fuzz
 import sqlite3
 
+st.set_page_config(page_title="KYC Verification", layout="wide")
+
 def country():
     col1, col2, col3 = st.columns((0.4, 0.40, 0.2))
 
