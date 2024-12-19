@@ -25,8 +25,9 @@ class Name:
         Checks if the current name exactly matches the other name.
         Both names must be more than one character long.
         """
-        other_name = other_name.lower()  # Convert to lowercase
-
+        other_name = other_name.lower() if other_name else ""
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         if len(self.name) > 1 and len(other_name) > 1 and self.name == other_name:
             return 'Exact Match'
         return False
@@ -36,7 +37,9 @@ class Name:
         Checks if the current name matches a hyphenated version of the other name.
         Example: 'Smith' matches 'Smith-Jones'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         if '-' in other_name and self.name in other_name.split('-'):
             return "Hyphenated Name"
         return False
@@ -47,7 +50,9 @@ class Name:
         The threshold determines the minimum similarity score required to consider it a match.
         Example: 'Brown' matches 'Browne'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         # similarity = fuzz.ratio(self.name, other_name)
         similarity = textdistance.jaro_winkler(self.name, other_name)
         if similarity >= threshold:
@@ -59,7 +64,9 @@ class Name:
         Checks if the current name matches a nickname or an alternative spelling of the other name.
         Example: 'Bob' matches 'Robert'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         nicknames_database = {
             "bob": ["robert"],
             "roberto": ["robert"],
@@ -79,7 +86,9 @@ class Name:
         Checks if the current name is an initial of the other name or vice versa.
         Example: 'John' matches 'J'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         # if len(self.name) == 1 and other_name.startswith(self.name):
         if other_name.startswith(self.name[0]):
             return "Initial Match"
@@ -93,7 +102,9 @@ class Name:
         Example: 'John Robert Smith' matches 'Robert John Smith'
         """
         self_parts = self.name.split()
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         other_parts = other_name.split()
         
         if len(self_parts) == len(other_parts) and sorted(self_parts) == sorted(other_parts):
@@ -105,7 +116,11 @@ class Name:
         Checks if the current name is a subset of the other name or vice versa.
         Example: 'John Robert Smith' matches 'John Smith'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        if not self.name:
+            return "Self name is empty"
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         if self.name in other_name or other_name in self.name:
             return "Missing Part Match"
         return False
@@ -115,7 +130,9 @@ class Name:
         Checks if there is no match between the names.
         Example: 'John' matches 'Robert'
         """
-        other_name = other_name.lower()  # Convert to lowercase
+        other_name = other_name.lower() if other_name else ""  # Handle empty input
+        if not self.name or not other_name:  # Check for empty strings
+            return False
         if self.name != other_name:
             return "Different Name"
         return False
@@ -480,7 +497,7 @@ def get_matching_level(df,dob,mobile,email,name_matching_score,address_matching_
 
     elif 'PHONE2_MOBILE' in df.columns and pd.notna(df['PHONE2_MOBILE'].iloc[0]) and df['PHONE2_MOBILE'].iloc[0] == mobile:
         levels.append('Mobile - 100%')
-    elif ((df['EMAILADDRESS'][0] in df['EMAILADDRESS'][0] and df['EMAILADDRESS'][0] != "") and df['EMAILADDRESS'][0] == email):
+    elif (df['EMAILADDRESS'][0] is not None and (df['EMAILADDRESS'][0] in df['EMAILADDRESS'][0] and df['EMAILADDRESS'][0] != "") and df['EMAILADDRESS'][0] == email):
         levels.append('Email - 100%')
 
     return levels
