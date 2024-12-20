@@ -560,3 +560,105 @@ def batch_process(df):
             st.error(f"Error processing file: {e}")
     
     return all_records
+
+def display_match_explanation():
+    """
+    Displays an expander in the Streamlit app with bullet points explaining key concepts of the matching process.
+    """
+    with st.expander(":red[**Detailed Description**]"):
+        # st.markdown("### Key Concepts:")
+        
+        st.markdown(" 1) :green[**Name Match String**]: Represents the overall match status of name components.")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- **E**: Exact Match")
+            st.markdown("- **N**: Nickname Match")
+            st.markdown("- **H**: Hyphenated Match")
+            st.markdown("- **F**: Fuzzy Match")
+        with col2:
+            st.markdown("- **I**: Initial Match")
+            st.markdown("- **T**: Transposed Match")
+            st.markdown("- **M**: Missing Part Match")
+            st.markdown("- **D**: Different Name")
+
+        st.markdown("""
+        :green[**2) Similarity**]: A score quantifying how closely each input matches the expected values.""")
+        col1, col2 = st.columns(2)
+        st.markdown("- (60-99) indicates a fuzzy match.")
+        with col1:
+            st.markdown("- 100 indicates an exact match.")
+        with col2:
+            st.markdown("- 0 indicates no match. ")
+        
+        st.markdown(""":green[**3) Name Match Level**]: Categorizes overall name matching""")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- Exact Match")
+            st.markdown("- Middle Name Mismatch")
+            st.markdown("- SurName Only Match")
+        with col2:
+            st.markdown("- Initial Match")
+            st.markdown("- Hyphenated Match")
+            st.markdown("- Transposed Match")
+        
+        st.markdown(""":green[**4) Full Name Similarity**]: Measures how well the full input name matches the target name.""")
+        st.markdown(""":green[**8) Name Match Level**]: Categorized into:""")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- Full Match (90%-97%)")
+        with col2:
+            st.markdown("- Partial Match (90%-97%)")
+        st.markdown("- No Match (<90%)")
+
+        st.markdown(""":green[**5) DOB Match**]: Indicates whether the date of birth matches:""")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- 100 - Exact Match")
+        with col2:
+            st.markdown("- 0 - No Match")
+
+        st.markdown("""
+        :green[**6) Address Matching String**]: Represents the overall match of address components:
+            - Explain matches for unit number, street name, locality, and postcode:""")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- **A**: Address Line 1")
+            st.markdown("- **E**: Exact Match")
+            st.markdown("- **M**: Missing Unit Number")
+            st.markdown("- **R**: Street Number Range")
+            st.markdown("- **F**: Partial Street Name")
+        with col2:
+            st.markdown("- **P**: Postcode")
+            st.markdown("- **X**: Missing Component")
+            st.markdown("- **Z**: Different Address")
+            st.markdown("- **B**: Both Locality & Postcode")
+            st.markdown("- **L**: Locality")               
+
+        st.markdown("""
+                    :green[**7) Address Components Similarities**]: Individual similarity scores for address elements.
+            - 100 indicates exact matches for each component.""")
+        
+        st.markdown("""
+        :green[**8) Address Match Level**]: Categorized into:""")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- Full Match (90%-100%)")
+            st.markdown("- Partial Match (80%-90%)")
+        with col2:
+            st.markdown("- No Match (<80%)")
+
+        st.markdown("""
+        :green[**9) Overall Matching Level**]: Confidence levels for multi-attribute verification:
+            - Includes Full Name, Full Address, and Date of Birth percentages.
+
+        :green[**10) Overall Verified Level**]: Final determination of verification status:
+            - Combines matches across Name, Address, and DOB into a consolidated outcome.
+        """)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("- M1 : Full Name Full Address DOB Match")
+            st.markdown("- N1 : Full Name Full Address Match")
+        with col2:
+            st.markdown("- M2 : Full Name DOB Match")
+

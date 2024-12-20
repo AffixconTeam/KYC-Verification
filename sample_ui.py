@@ -18,7 +18,7 @@ selected_country = st.radio(
     horizontal=True)
 
 def au_country():
-    col1, col2, col3 = st.columns((0.4, 0.40, 0.2))
+    col1, col2, col3 = st.columns((0.30, 0.3, 0.5))
 
     with col1:
         first_name = st.text_input('First Name', value='Jila')
@@ -205,7 +205,15 @@ def au_country():
                 df["Overall Verified Level"] = append_based_on_verification(df,verified_by=True)
                 df_transposed = df.T
                 df_transposed.columns = ['Results']
-                st.dataframe(df_transposed, width=550, height=900)    
+                index_col = ['Name Match Str','Name Match Level','dob_match','Address Matching String',
+                                                'Address Match Level','Overall Matching Level','Overall Verified Level']
+                with st.expander(":red[**Summary Data:**]"):
+                    st.dataframe(df_transposed.loc[index_col], width=550, height=300)   
+                with st.expander(":red[**Detailed Data:**]"):
+                    st.dataframe(df_transposed.drop(index_col), width=550, height=650)    
+            
+            with col3:
+                display_match_explanation()
                 
 
 def mx_country():
