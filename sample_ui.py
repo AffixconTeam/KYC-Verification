@@ -18,7 +18,7 @@ selected_country = st.radio(
     horizontal=True)
 
 def au_country():
-    col1, col2, col3 = st.columns((0.4, 0.55, 0.45))
+    col1, col2, col3 = st.columns((0.45, 0.55, 0.45))
 
     with col1:
         first_name = st.text_input('First Name', value='Jila')
